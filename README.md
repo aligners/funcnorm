@@ -9,7 +9,7 @@ Mechanics:
 
 The alignment starts where FreeSurfer [http://freesurfer.net] and SUMA [http://afni.nimh.nih.gov/afni/suma] leave off:
 - the inputs are spherical triangulated meshes (one per hemisphere per subject) aligned by FreeSurfer's 'recon-all' command using high-resolution anatomical scans from each subject, averaged across 3 or more sessions, resampled uniformly by SUMA's MapIcosahedron at 2mm resolution (~36k vertices per mesh) so that vertices are in 1:1 anatomic alignment across subjects.
-- the algorithm then aligns subject pairs, by maximizing correlation while varying the position of each vertex, using a cost function that minimizes folding and stretching
+- the algorithm then aligns subject pairs, by maximizing correlation while varying the position of each vertex, using a cost function that penalizes folding and stretching
 - the warps are further constrained such that the group geometric average location of each vertex remains at its original (anatomically-aligned) location.
 - the outputs are warps for each subject (both left and right hemisphere), which can be used to align future data sets.
 - method one ("funcnorm", Sabuncu et al 2010) uses the inter-subject correlation of FMRI response directly to drive the alignment.
