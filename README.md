@@ -10,14 +10,12 @@ Mechanics:
 The alignment starts where FreeSurfer [http://freesurfer.net] and SUMA [http://afni.nimh.nih.gov/afni/suma] leave off:
 - the inputs are spherical triangulated meshes (one per hemisphere per subject) aligned by FreeSurfer based on a common atlas of cortial curvature landmarks, resampled uniformly by SUMA's MapIcosahedron at 2mm resolution (~36k vertices per mesh) so that vertices are in 1:1 alignment across subjects.
 - the algorithms then align subject pairs, by maximizing correlation while manipulating the position of each vertex, using a cost function that minimizes folding and stretching
-- The warps are further constrained such that the group geometric average location of each vertex remains at its original (anatomically-aligned) location.
-
+- the warps are further constrained such that the group geometric average location of each vertex remains at its original (anatomically-aligned) location.
+- the outputs are warps for each subject (both left and right hemisphere), which can be used to align future data sets.
 - method one ("funcnorm", Sabuncu et al 2010) uses the inter-subject correlation of FMRI response directly to drive the alignment.
 - method two ("connnorm", Conroy et al 2013) uses functional connectivity (the pattern of within-subject correlations) to drive the alignment.
 
 Going forward "funcnorm" is meant as an umbrella term for both methods. The same code base contains both methods but the code is undergoing validation testing to confirm this (January 2015).
-
-More soon.
 
 See also the project home page at:
 
