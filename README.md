@@ -12,7 +12,7 @@ The alignment starts where FreeSurfer [http://freesurfer.net] and SUMA [http://a
 - the algorithms then align subject pairs, by maximizing correlation while manipulating the position of each vertex, using a cost function that minimizes folding and stretching
 - The warps are further constrained such that the group geometric average location of each vertex remains at its original (anatomically-aligned) location.
 
-- method one ("funcnorm", Sabuncu et al 2010) uses the inter-subject correlation of FMRI response directly to drive the alignment. Subject must view the same stimulus, 
+- method one ("funcnorm", Sabuncu et al 2010) uses the inter-subject correlation of FMRI response directly to drive the alignment.
 - method two ("connnorm", Conroy et al 2013) uses functional connectivity (the pattern of within-subject correlations) to drive the alignment.
 
 Going forward "funcnorm" is meant as an umbrella term for both methods. The same code base contains both methods but the code is undergoing validation testing to confirm this (January 2015).
