@@ -19,6 +19,10 @@ Going forward "funcnorm" is meant as an umbrella term for both methods. The same
 
 More soon.
 
+See also the project home page at:
+
+https://pni.princeton.edu/pni-software-tools/princeton-functional-normalization-toolbox
+
 References:
 
 - Conroy, BR, Singer BD, Guntupalli JS, Ramadge PJ and Haxby JV (2013). Inter-subject alignment of human cortical anatomy using functional connectivity. NeuroImage. 81, 400-411. [http://www.ncbi.nlm.nih.gov/pubmed/23685161]
