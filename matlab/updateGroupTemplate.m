@@ -65,7 +65,9 @@ disp(['Time:  ', num2str(ticSum), ' seconds']);
 pause(0.05);
 
 tic;
-[V,D] = syev(A, 'mrrr');
+% Changing sysev to eig to prevent errors
+%[V,D] = syev(A, 'mrrr');
+[V,D] = eig(A);
 s = sqrt(diag(D));
 [s, I] = sort(s, 1, 'descend');
 V = V(:, I);
