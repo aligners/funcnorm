@@ -460,7 +460,15 @@ function [f,g,H] = computeObjective(x)
 
             count = count + 2;
         end
-    end      
+    end
+    if isa(f,'double') == 0
+        f = double(f);
+    end
+    if isa(g,'double') == 0
+        g = double(g);
+    end
+    g = real(g);
+    f = real(f);
 end
 %% ** END FUNCTION computeObjective
 end
