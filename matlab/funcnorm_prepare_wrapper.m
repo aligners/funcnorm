@@ -1,6 +1,6 @@
 function funcnorm_prepare_wrapper(subjects, hems, experiment, volDataDir, suffix, ...
     extensions, inpSubjDir, saveSubjDir, preprocess_movie, mmRes, fwhm, ...
-    fs_surf, outDir, logFile, warp_experiment, alignDir, inpUnixPath)
+    fs_surf, outDir, logFile, warp_experiment, alignDir, inpUnixPath, functype)
 
 % This file is part of the Functional Normalization Toolbox, (c) 2008 by the authors.
 % Please see AUTHORS and LICENSE file in the project root directory
@@ -24,6 +24,10 @@ function funcnorm_prepare_wrapper(subjects, hems, experiment, volDataDir, suffix
    	
     if ~exist('inpUnixPath') || isempty(inpUnixPath)
         inpUnixPath=getenv('PATH');
+    end
+    
+    if ~exist('functype') || isempty(functype)
+        functype='connnorm'
     end
     
     nsubj = length(subjects);
@@ -85,7 +89,8 @@ function funcnorm_prepare_wrapper(subjects, hems, experiment, volDataDir, suffix
                             ' -fwhm ', num2str(fwhm),...
                             alignDirStr,...
                             preprocessFlagStr,...
-                            ' -verbosity 2'
+                            ' -verbosity 2',...
+                            ' -functype ' functype
                       ];                  
                   
             disp(unixStr);

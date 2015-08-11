@@ -22,7 +22,7 @@ preprocess_movie=false
 suffix=""
 warp_experiment=""
 alignDir=""
-
+functype="connnorm"
 ###################################################################
 ## FUNCTIONS
 ###################################################################
@@ -74,7 +74,9 @@ Usage() {
 	echo "		2 = both report and print out commands"
 	echo "	-alignDir			$alignDir"
 	echo "		Use with warp_experiment if the alignment directory is different from default location"
-	echo "	-preprocess_movie	<no flag>"
+	echo "	-functype           $functype"
+    echo "      connnorm or funcnorm"
+    echo "  -preprocess_movie	<no flag>"
 	echo "		perform movie preprocessing on func3d"
 	echo "	-dry 				<no flag>"
 	echo "		do not execute the commands"
@@ -162,7 +164,11 @@ process_args()
 			  -*) reporterr "no verbosity level supplied";;
 			  *)  reporterr "verbosity must be 0,1, or 2";;
 			  esac;;
-		-preprocess_movie) preprocess_movie=true; shift;;
+		-functype) case "$2" in 
+			  -*) reporterr "no functype  supplied";;
+			  *)  functype=$2 ; shift 2;;
+			  esac;;
+        -preprocess_movie) preprocess_movie=true; shift;;
 		-dry) just_print_commands=true; shift;;
 		-help) Usage;;
 		-*) reporterr "$1 is not recognized";;
@@ -273,7 +279,7 @@ process_args()
 			fi
 		fi
 		
-		warp_mesh="$alignDir/warps/$hem/standard${mm}mm_${sub}_${hem}.connnorm.asc"
+		warp_mesh="$alignDir/warps/$hem/standard${mm}mm_${sub}_${hem}.${functype}.asc"
 		if [ ! -f $warp_mesh ]; then
 			reporterr "could not find $warp_mesh"
 		fi
@@ -543,10 +549,10 @@ make_std_surfaces()
 	handle_external_command "cd $suma_surfdir"
 	std_surfdir=$subjects_dir/$sub/funcnorm/$hem/std_${fs_surf}_${nodes}
 	handle_external_command "mkdir -p $std_surfdir"
-	if [ -f ${std_surfdir}/MapIco_std.spec ] && [ "$something_new" == "false" ]; then
+	if [ -f ${std_surfdir}/std.60.${sub}_${hem}.spec ] && [ "$something_new" == "false" ]; then
 		report "re-using files in $std_surfdir, (re)move to regenerate"
 	else
-		report "Running MapIcosahedron for ${sub}_${hem}..."
+		report "Running MapIcosahedron for ${sub}_${hem} with ld ${lindepth}..."
 		something_new="true"
 		# using Ziad's new sphere_at_origin to force
 		# spheres to have 0,0,0 origin across subjects
@@ -555,7 +561,7 @@ make_std_surfaces()
 									-ld $lindepth \
 									-sphere_at_origin \
 									-morph $fs_surf"
-		handle_external_command "mv -f MapIco* $std_surfdir"
+		handle_external_command "mv -f std.60*${hem}* $std_surfdir"
 	fi
 } # make_std_surfaces()
 
@@ -619,7 +625,8 @@ make_surfacedata()
 		else
 			vol2surf_output="vol2surfed.niml.dset"
 			surfacedata_final=$vol2surf_output
-			surfspec="$std_surfdir/MapIco_std.spec"
+			#surfspec="$std_surfdir/MapIco_std.spec"
+			surfspec="$std_surfdir/std.60.${sub}_${hem}.spec"
 		fi
 	fi
 	if [ -f "$vol2surf_output" ]; then
@@ -659,7 +666,7 @@ make_surfacedata()
 		SurfToSurf_output="$tmpdir/surftosurfed.1D"
 		report "SurfToSurf-ing smoothed ${fs_surf} to standard ${fs_surf} for ${sub}_${hem}..."
 		handle_external_command "SurfToSurf \
-									-i_fs $std_surfdir/MapIco_std.${fs_surf}.asc \
+									-i_fs $std_surfdir/std.60.${hem}.${fs_surf}.asc \
 									-i_fs $suma_surfdir/${hem}.${fs_surf}.asc \
 									-data ${SurfSmooth_output} \
 									-prefix ${SurfToSurf_output%.*}"
@@ -806,7 +813,7 @@ if [ "$use_warp" == "true" ]; then
 else
 	stdsurf_final="$outputdir/standard${mm}mm_${fs_surf}.asc"
 	if [ ! -f $stdsurf_final ]; then
-		handle_external_command "cp $std_surfdir/MapIco_std.${fs_surf}.asc $stdsurf_final"
+		handle_external_command "cp $std_surfdir/std.60.${hem}.${fs_surf}.asc $stdsurf_final"
 	fi
 	warped_by=""
 fi
