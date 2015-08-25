@@ -354,7 +354,7 @@ function warps = funcnorm(subjects, hems, varargin)
             displayLogItem(['Performing alignment of subject #', num2str(subjNum), ' (', subj, ') on pass #0'], logFile);
             displayLogItem(['A log of this alignment will be saved to ', alignLogFile], logFile);
             
-            warp = funcnorm_register(atlasTS, TS, coords, zeros(3, numNodes, opsDataType), regularization, maxResolution, alignLogFile);
+            warp = funcnorm_register(TS, atlasTS, coords, zeros(3, numNodes, opsDataType), regularization, maxResolution, alignLogFile);
             displayLogItem(['Completed alignment of subject #', num2str(subjNum), ' (', subj, ') on pass #0'], logFile);
 
             % Now we need to output the warp file
