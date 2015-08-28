@@ -66,6 +66,10 @@ if computeDerivatives == 1
 		dareal_dphi(cI) = dareal_dphi(cI) + aTerms(loc)*ncas(:, loc)'*dp2_dphi;
 		dareal_dtheta(cI) = dareal_dtheta(cI) + aTerms(loc)*ncas(:, loc)'*dp2_dtheta;
 	end
+
+    dareal_dphi = dareal_dphi * 0.5;
+    dareal_dtheta = dareal_dtheta * 0.5;
+
 end
 
 %% OLD, non-vectorized method
