@@ -284,7 +284,10 @@ displayLogItem('Completed parsing the regularization structure!', logFile);
         % Use this for steepest descent
         maxIter = 300;
         maxFunEvals = 500;
-        options = optimset('MaxIter', maxIter, 'MaxFunEvals', maxFunEvals, 'TolFun', tolFun, 'OutputFcn', @outfn, 'DerivativeCheck', derivCheck, 'GradObj', 'on', 'Display', 'iter', 'LargeScale', 'on', 'Hessian', 'on');
+        % Default is using LargeScale=on when objective function supplies gradient
+        % Set 'LargeScale','GradObj', and 'Hessian' off if gradient computation fails. 
+        % Ref: fminnunc doc in Matlab
+        options = optimset('MaxIter', maxIter, 'MaxFunEvals', maxFunEvals, 'TolFun', tolFun, 'OutputFcn', @outfn, 'DerivativeCheck', derivCheck, 'GradObj', 'on', 'Display', 'iter', 'LargeScale', 'on', 'Hessian', 'on', 'FunValCheck', 'on');
         displayLogItem(['Parameters used in this optimization:  MaxIter = ', num2str(maxIter), '; MaxFunEvals = ', num2str(maxFunEvals), '; TolFun = ', num2str(tolFun)], logFile);
 
         % Then we must blur the template dataset
@@ -654,10 +657,10 @@ function [f,g,H] = computeObjective(x)
     		
     		displayLogItem(sprintf('\t\t\t%s', 'Checking if vectors are orthogonal...'), logFile);
     			maxCrossTerm = max(max(abs(V2'*V2_0)));
-    			while maxCrossTerm > 1e-6
+    			while maxCrossTerm > 3e-5 % changed from 1e-6 for speed
     				displayLogItem(sprintf('\t\t\t\t%s', ['Vectors not orthogonal -- ', num2str(maxCrossTerm)]), logFile);
     				V2_0 = V2_0 - V2*(V2'*V2_0);
-    				V2_0 = orth_qr(V2_0);
+    				V2_0 = orth(V2_0);      % changed from orth_qr() to avoid a bug
     				maxCrossTerm = max(max(abs(V2'*V2_0)));
     			end
     		displayLogItem(sprintf('\t\t\t%s', 'Completed checking if vectors are orthogonal!'), logFile);
@@ -764,7 +767,14 @@ function [f,g,H] = computeObjective(x)
     	displayLogItem(sprintf('\t\t%s', ['Objective f:  ', num2str(f)]), logFile);
     end
 
-	displayLogItem(sprintf('\t%s', 'Exiting compute objective function!'), logFile);    
+	displayLogItem(sprintf('\t%s', 'Exiting compute objective function!'), logFile);   
+    % Force f to be double and make sure f and g are real
+    % to match requirements of optimization functions in Matlab
+    if isa(f,'double') == 0
+        f = double(f);
+    end
+    g = real(g);
+    f = real(f);
 end
 %% ** END FUNCTION computeObjective
 end

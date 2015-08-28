@@ -214,7 +214,7 @@ function warps = connnorm(subjects, hems, experiment, lambda_areal, lambda_metri
 	% tmpDir is a temporary directory for this alignment
 	tmpDir = sprintf('%s/tmp', alignDir);if isdir(tmpDir) == 0; mkdir(tmpDir); end;
 	% tmpDir2 is a second temporary directory for this alignment
-	tmpDir2 = sprintf('/scratch/bconroy/%s', alignDirOrig); if isdir(tmpDir2) == 0; mkdir(tmpDir2); end;
+	tmpDir2 = sprintf('%s/tmp2/%s', alignDir, alignDirOrig); if isdir(tmpDir2) == 0; mkdir(tmpDir2); end;
 	% warpsDir is where all final warps are stored
 	warpsDir = sprintf('%s/warps', alignDir);if isdir(warpsDir) == 0; mkdir(warpsDir); end;
 	% logFile is the name of the main algorithm log file
