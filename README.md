@@ -21,6 +21,10 @@ See also the project home page:
 
 https://pni.princeton.edu/pni-software-tools/princeton-functional-normalization-toolbox
 
+Update: Sample data for the example demo [542 MB] can be downloaded from:
+
+https://webapps.pni.princeton.edu/funcnorm/download_data.php?action=getinfo
+
 References:
 
 - Conroy, BR, Singer BD, Guntupalli JS, Ramadge PJ and Haxby JV (2013). Inter-subject alignment of human cortical anatomy using functional connectivity. NeuroImage. 81, 400-411. [http://www.ncbi.nlm.nih.gov/pubmed/23685161]
